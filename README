@@ -1,0 +1,9 @@
+The purpose of this README is to give some light on the project.
+
+The project is free to use and modify under the GNU License, if you are going to use this program or use some code from it then please make a comment in your own code as to where you got it from to recognize the author.
+
+With that out of the way, this project was started to give Internet Explorer or Microsoft Edge an extended funcionality in the sense that you can not selectively remove cookies from specific websites. This program utilizes the Config.xml to search for cookies with the user entered specific website address. It can be a part of an address or the full address that the user wants to search for.
+
+If you have your cookies stored somewhere else, like Edge has it's cookies stored elsewhere (a quick bing/google-search will help you reveal your Edge->Cookie location) you can modify the Config.xml file and run the program again to use the new path.
+
+Initially the program has its language in Swedish but a future update (in a day or two) the program will have English language support.
