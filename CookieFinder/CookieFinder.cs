@@ -6,9 +6,10 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
+using System.Globalization;
 
 namespace CookieFinder
 {
@@ -20,31 +21,39 @@ namespace CookieFinder
         private List<string> listOfFiles;
         private string filePath;
         private string cookiePath;
-        private XmlTextReader reader;
+        private string lang;
         
         public CookieFinder()
         {
-            InitializeComponent();
             listOfFiles = new List<string>();
             if(File.Exists("Config.xml"))
             {
-                reader = new XmlTextReader("Config.xml");
-                while(reader.Read())
+                XmlDocument doc = new XmlDocument();
+                doc.Load("Config.xml");
+                XmlNodeList cookieList = doc.GetElementsByTagName("CookieFinderConfig");
+
+                foreach( XmlNode node in cookieList )
                 {
-                    switch(reader.NodeType)
-                    {
-                        case XmlNodeType.Element: break;
-                        case XmlNodeType.Text: cookiePath = reader.Value; break;
-                        case XmlNodeType.EndElement: break;
-                        default: break;
-                    }
+                    XmlElement cookieElement = (XmlElement)node;
+                    cookiePath = cookieElement.GetElementsByTagName("CookiePath")[0].InnerText;
+                    lang = cookieElement.GetElementsByTagName("Language")[0].InnerText;
                 }
-                reader.Close();
+
+                lang = lang.ToLower();
+                switch(lang)
+                {
+                    case "sv": CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("sv-SE");
+                               Thread.CurrentThread.CurrentUICulture = new CultureInfo("sv-SE"); break;
+                    case "en": CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-US");
+                               Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US"); break;
+                    default: break;
+                }
             }
             else
             {
                 cookiePath = "\\Microsoft\\Windows\\Cookies\\Low";
             }
+            InitializeComponent();
         }
         
         /// <summary>
@@ -64,9 +73,17 @@ namespace CookieFinder
         /// <param name="e"></param>
         private void btnFind_Click(object sender, EventArgs e)
         {
-            lblResult.Text = "Letar efter kakor! :)";
-            filePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + cookiePath;
-            
+            lblResult.Text = Resources.Strings.Looking;
+            //lblResult.Text = "Letar efter kakor! :)";
+            if(!Directory.Exists(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + cookiePath))
+            {
+                filePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + cookiePath;
+            }
+            else
+            {
+                filePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + cookiePath;
+            }
+                        
             if( txtInputURL.ToString() != "" )
                 findThemCookies(filePath, "*.txt", listOfFiles, txtInputURL.Text);
 
@@ -111,15 +128,15 @@ namespace CookieFinder
 
             if(listOfFiles.Count == 0)
             {
-                lblResult.Text = "Hittade ingen sådan kaka :(";
+                lblResult.Text = Resources.Strings.NotFound;
                 btnDelete.Visible = false;
             }
             else
             {
                 if(listFiles.Count == 1)
-                    lblResult.Text = "Hittade " + listFiles.Count + " kaka, vill du ta bort (äta upp) denna kaka?";
+                    lblResult.Text = Resources.Strings.Found + listFiles.Count + Resources.Strings.Cookie;
                 else
-                    lblResult.Text = "Hittade " + listFiles.Count + " kakor, vill du ta bort (äta upp) dessa kakor?";
+                    lblResult.Text = Resources.Strings.Found + listFiles.Count + Resources.Strings.Cookies;
                 btnDelete.Visible = true;
             }            
         }
@@ -136,7 +153,7 @@ namespace CookieFinder
             listOfFiles.Clear();
 
             
-            lblResult.Text = "Samtliga kakor innehållande " + txtInputURL.Text + " är nu borttagna/uppätna!";
+            lblResult.Text = Resources.Strings.Containing + txtInputURL.Text + Resources.Strings.Removed;
             btnDelete.Visible = false;
         }
 

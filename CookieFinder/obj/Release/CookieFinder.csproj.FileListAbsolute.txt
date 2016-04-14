@@ -23,3 +23,6 @@ D:\Projects\CookieFinder\CookieFinder\obj\Release\en-US\CookieFinder.resources.d
 D:\Projects\CookieFinder\CookieFinder\obj\Release\CookieFinder.Resources.Strings.sv-SE.resources
 D:\Projects\CookieFinder\CookieFinder\obj\Release\CookieFinder.Resources.Strings.en-US.resources
 D:\Projects\CookieFinder\CookieFinder\bin\Release\Resources\Strings.sv-SE.resx
+D:\Projects\CookieFinder\CookieFinder\bin\Release\Config.xml
+D:\Projects\CookieFinder\CookieFinder\obj\Release\CookieFinder.Resources.Strings.resources
+D:\Projects\CookieFinder\CookieFinder\obj\Release\CookieFinder.CookieFinder.sv-SE.resources

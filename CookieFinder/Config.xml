@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <CookieFinderConfig>
   <!-- The filepath is at this time redirected to %APPDATA% and then whatever is in the CookiePath below -->
-  <!--<CookiePath>\Microsoft\Windows\INetCookies</CookiePath> -->
-  <CookiePath>\Microsoft\Windows\Cookies\Low</CookiePath>
+  <CookiePath>\Microsoft\Windows\INetCookies</CookiePath>
+  <!-- <CookiePath>\Microsoft\Windows\Cookies\Low</CookiePath> -->
+  <Language>sv</Language>
 </CookieFinderConfig>
